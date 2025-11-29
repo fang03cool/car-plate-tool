@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>车牌替换工具</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Microsoft YaHei', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .upload-area {
+            border: 3px dashed #3498db;
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            margin: 20px 0;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+        .upload-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        input, button {
+            width: 100%;
+            padding: 18px;
+            margin: 12px 0;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1.1rem;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .preview {
+            margin: 20px 0;
+            text-align: center;
+            min-height: 150px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚛 车牌替换工具</h1>
+        
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">📁</div>
+            <p>点击上传板车照片</p >
+            <p style="font-size: 14px; color: #666;">支持 JPG、PNG 格式</p >
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        
+        <input type="text" id="plateNumber" placeholder="输入新车牌号，例如：京A12345" maxlength="8">
+        
+        <button onclick="generateImage()">生成效果图</button>
+        
+        <div class="preview" id="preview">
+            <p>预览区域 - 上传图片后显示效果</p >
+        </div>
+    </div>
+
+    <script>
+        function generateImage() {
+            const plateNumber = document.getElementById('plateNumber').value;
+            const preview = document.getElementById('preview');
+            
+            if (!plateNumber) {
+                alert('请输入车牌号！');
+                return;
+            }
+            
+            preview.innerHTML = `
+                <div class="success-msg">
+                    <h3>🎉 生成成功！</h3>
+                    <p>新车牌号：<strong>${plateNumber}</strong></p >
+                    <p>背景场景：智能停车场</p >
+                    <p>在实际版本中，这里会显示合成后的图片</p >
+                </div>
+                <div style="background: #1a5276; color: white; padding: 15px; border-radius: 8px; margin: 15px 0; display: inline-block;">
+                    ${plateNumber}
+                </div>
+            `;
+        }
+        
+        // 文件上传处理
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                document.querySelector('.upload-area').innerHTML = `
+                    <div class="upload-icon">✅</div>
+                    <p>已上传：${fileName}</p >
+                    <p style="font-size: 14px; color: #666;">点击可重新选择</p >
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
